@@ -4,13 +4,13 @@
 }
 
 body{
-    background-color: teal;
+    background-color: rgb(228, 242, 204);
 }
 
 #box{
     /* background-color: red; */
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,7 +50,8 @@ h5{
 
 #midbox{
     /* background-color: yellow; */
-    width: 400px;
+    width: 300px;
+    border-radius: 5pt;
     border: black solid 5pt;
 }
 
