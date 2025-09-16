@@ -4,36 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LttrBx</title>
-    <script src="./index.js" defer></script>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <input type="text" name="word" id="wordinput">
-    <div id="box">
-        <div id="firstRow">
-            <h5 id="r1l1"></h5>
-            <h5 id="r1l2"></h5>
-            <h5 id="r1l3"></h5>
-        </div>
-        <div id="middle">
-            <div id="firstCol">
-                <h5 id="c1l1"></h5>
-                <h5 id="c1l2"></h5>
-                <h5 id="c1l3"></h5>
+    <div id="main">
+        
+        <input type="text" name="word" id="wordinput">
+        <div id="box">
+            <div id="firstRow">
+                <h5 id="r1l1"></h5>
+                <h5 id="r1l2"></h5>
+                <h5 id="r1l3"></h5>
             </div>
-            <div id="midbox"></div>
-            <div id="secondCol">
-                <h5 id="c2l1"></h5>
-                <h5 id="c2l2"></h5>
-                <h5 id="c2l3"></h5>
+            <div id="middle">
+                <div id="firstCol">
+                    <h5 id="c1l1"></h5>
+                    <h5 id="c1l2"></h5>
+                    <h5 id="c1l3"></h5>
+                </div>
+                <div id="midbox" class="gitna">
+                    <div id="dots" class="gitna">
+                        <div id="r1dot">
+                            <div id="r1d1" class="dot"></div>
+                            <div id="r1d2" class="dot"></div>
+                            <div id="r1d3" class="dot"></div>
+                        </div>
+                        <div id="middot">
+                            <div id="c1dot">
+                                <div id="c1d1" class="dot"></div>
+                                <div id="c1d2" class="dot"></div>
+                                <div id="c1d3" class="dot"></div>
+                            </div>
+                            <div id="c2dot">
+                                <div id="c2d1" class="dot"></div>
+                                <div id="c2d2" class="dot"></div>
+                                <div id="c2d3" class="dot"></div>
+                            </div>
+                        </div>
+                        <div id="r2dot">
+                            <div id="r2d1" class="dot"></div>
+                            <div id="r2d2" class="dot"></div>
+                            <div id="r2d3" class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="secondCol">
+                    <h5 id="c2l1"></h5>
+                    <h5 id="c2l2"></h5>
+                    <h5 id="c2l3"></h5>
+                </div>
             </div>
-        </div>
-        <div id="secondRow">
-            <h5 id="r2l1"></h5>
-            <h5 id="r2l2"></h5>
-            <h5 id="r2l3"></h5>
+            <div id="secondRow">
+                <h5 id="r2l1"></h5>
+                <h5 id="r2l2"></h5>
+                <h5 id="r2l3"></h5>
+            </div>
         </div>
     </div>
+    <div id="validWord" style="
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background: green;
+        color: white;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 1s ease-out;
+        ">
+        Valid Word
+    </div>
+    <div id="invalidWord" style="
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background: rgb(142, 45, 3);
+        color: white;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 1s ease-out;
+        ">
+        Invalid Word
+    </div>
     <!-- <h1>helo</h1> -->
+    <script type="module" src="./index.js"></script>
 </body>
 </html>

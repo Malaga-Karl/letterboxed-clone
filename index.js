@@ -1,3 +1,6 @@
+import words from "https://cdn.skypack.dev/word-list-json";
+
+
 const l1 = document.getElementById('r1l1')
 const l2 = document.getElementById('r1l2')
 const l3 = document.getElementById('r1l3')
@@ -23,10 +26,10 @@ function pickRandom(){
 
 
 
-r1 = [pickRandom(),pickRandom(),pickRandom()]
-r2 = [pickRandom(),pickRandom(),pickRandom()]
-c1 = [pickRandom(),pickRandom(),pickRandom()]
-c2 = [pickRandom(),pickRandom(),pickRandom()]
+const r1 = [pickRandom(),pickRandom(),pickRandom()]
+const r2 = [pickRandom(),pickRandom(),pickRandom()]
+const c1 = [pickRandom(),pickRandom(),pickRandom()]
+const c2 = [pickRandom(),pickRandom(),pickRandom()]
 
 let selectedLetters = [...r1, ...r2, ...c1, ...c2]
 
@@ -54,24 +57,68 @@ const allowedControlKeys = [
     ' '
 ]
 
-let prev = null
+let prev = ''
 
 wordInput.addEventListener('keydown', (e) => {
     // only on selected words
     let key = e.key.toLowerCase()
 
     if(selectedLetters.includes(key) || allowedControlKeys.includes(e.key)){
-        if (prev){
-            if(r1.includes(key) && r1.includes(prev)){
-                    e.preventDefault()
-                }
-            }
         console.log(`prev: ${prev}`)
+        if (prev !== ''){
+            if (r1.includes(prev) && r1.includes(key)){
+                e.preventDefault();
+            }
+            if (r2.includes(prev) && r2.includes(key)){
+                e.preventDefault();
+            }
+            if (c1.includes(prev) && c1.includes(key)){
+                e.preventDefault();
+            }
+            if (c2.includes(prev) && c2.includes(key)){
+                e.preventDefault();
+            }
+            if (e.key === 'Enter'){
+                console.log(wordInput.value)
+                if(words.includes(wordInput.value)){
+                    validWord()
+                    wordInput.value =''
+                } else {
+                    invalidWord()
+                }
+                // showMessage()
+            }
+        }
         prev = key
     } else{
         e.preventDefault()
     }
-
-    // only allow outside of row/col
-    
+      
 })
+
+function validWord() {
+    const msg = document.getElementById("validWord");
+
+    msg.style.display = "block";   // show
+    msg.style.opacity = "1";       // fade in
+
+    setTimeout(() => {
+      msg.style.opacity = "0";     // fade out
+      setTimeout(() => {
+        msg.style.display = "none"; // fully hide after fade
+      }, 1000); // match transition time
+    }, 2000); // stay visible for 2 sec
+}
+function invalidWord() {
+    const msg = document.getElementById("invalidWord");
+
+    msg.style.display = "block";   // show
+    msg.style.opacity = "1";       // fade in
+
+    setTimeout(() => {
+      msg.style.opacity = "0";     // fade out
+      setTimeout(() => {
+        msg.style.display = "none"; // fully hide after fade
+      }, 1000); // match transition time
+    }, 2000); // stay visible for 2 sec
+}

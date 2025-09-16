@@ -8,6 +8,7 @@ body{
 }
 
 #box{
+    flex: 2;
     /* background-color: red; */
     width: 400px;
     height: 400px;
@@ -17,8 +18,6 @@ body{
     align-items: center;
     margin-right: auto;
     margin-left: auto;
-    top: -50%;
-    bottom: -50;
 }
 
 h5{
@@ -27,9 +26,17 @@ h5{
 
 #firstRow{
     display: flex;
+    margin-bottom: 15px;
     /* background-color: yellow; */
     width: inherit;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    /* gap: 3pt; */
+}
+#secondRow{
+    display: flex;
+    /* background-color: yellow; */
+    width: inherit;
+    justify-content: space-evenly;
     /* gap: 3pt; */
 }
 
@@ -39,33 +46,85 @@ h5{
     width: inherit;
     height: inherit;
     justify-content: space-between;
+    /* padding-top: 5px; */
     /* flex-direction: column; */
 }
 
 #firstCol, #secondCol{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
+
 
 #midbox{
     /* background-color: yellow; */
-    width: 300px;
-    border-radius: 5pt;
-    border: black solid 5pt;
+    position: relative;
+    z-index: 0;
+    border: black solid 3pt;
 }
 
-#secondRow{
+#main{
     display: flex;
-    /* background-color: yellow; */
+    width: 90vw;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+}
+
+/* DOTS */
+
+
+#dots{
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: calc(300px + 20px);
+    height: calc(300px + 20px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#r1dot, #r2dot{
+    display: flex;
     width: inherit;
     justify-content: space-around;
-    /* gap: 3pt; */
+}
+
+#middot{
+    display: flex;
+    justify-content: space-between;
+    height: 300px;
+}
+
+#c1dot, #c2dot{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: white;
+    border: black solid 1pt;
+}
+
+.gitna{
+    width: 300px;
+    height: 300px;
 }
 
 #wordinput{
-    display: flex;
-    margin-left: auto;
+    flex: 1;
+    height: 50px;
+    width: 100px;
+    margin-left: 100px;
+    /* display: flex; */
+    /* margin-left: auto;
     margin-right: auto;
-    margin-bottom: 100px;
+    margin-bottom: 100px; */
 }
