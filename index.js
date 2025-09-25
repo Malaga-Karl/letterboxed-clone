@@ -71,6 +71,7 @@ const allowedControlKeys = [
     ' '
 ]
 
+let usedWords = [];
 let usedLetters = [];
 
 wordInput.addEventListener('keydown', (e) => {
@@ -85,7 +86,7 @@ wordInput.addEventListener('keydown', (e) => {
     if(isAlphabetical(key)){
         console.log(`prev: ${prev}`)
     }
-
+    if (!(selectedLetters.includes(key) || allowedControlKeys.includes(key))) e.preventDefault()
     if(r1.includes(key) && r1.includes(prev)){
         e.preventDefault()
     }
@@ -99,9 +100,19 @@ wordInput.addEventListener('keydown', (e) => {
         e.preventDefault()
     }
 
+    if (e.key === 'Backspace'){
+        // console.log(`backspace, ${currentWord.length} ${usedWords.length}`)
+        if (currentWord.length === 1 && usedWords.length > 0){
+            wordInput.value = usedWords[usedWords.length-1]
+
+            usedWords.pop()
+        }
+    }
+
     if (e.key === 'Enter'){
         console.log(currentWord)
         if(words.includes(currentWord)){
+            usedWords.push(currentWord);
             let lastLetter = currentWord[currentWord.length-1]
             validWord()
             let letters = wordInput.value.split('')
