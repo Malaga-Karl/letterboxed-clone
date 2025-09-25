@@ -100,10 +100,23 @@ wordInput.addEventListener('keydown', (e) => {
     }
 
     if (e.key === 'Enter'){
-        if (words.includes(currentWord)){
+        console.log(currentWord)
+        if(words.includes(currentWord)){
+            let lastLetter = currentWord[currentWord.length-1]
             validWord()
-            
-        } else{
+            let letters = wordInput.value.split('')
+            let letterDivs = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12]
+
+            for(let i = 0; i < letters.length; i++){
+                letterDivs.forEach((letterDiv) => {
+                    if(letterDiv.innerHTML === letters[i]){
+                        letterDiv.classList.add('used')
+                    }
+                })
+            }
+            result.innerHTML += wordInput.value + ' '
+            wordInput.value =lastLetter
+        } else {
             invalidWord()
         }
     }
