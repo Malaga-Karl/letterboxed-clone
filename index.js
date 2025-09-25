@@ -71,61 +71,36 @@ const allowedControlKeys = [
     ' '
 ]
 
-let prev = ''
 let usedLetters = [];
 
 wordInput.addEventListener('keydown', (e) => {
     // only on selected words
+    let prev = wordInput.value[wordInput.value.length - 1] || null;
     let key = e.key.toLowerCase()
+    function isAlphabetical(char) {
+        return char.length === 1 && /[a-zA-Z]/.test(char);
+    }
 
-    if(selectedLetters.includes(key) || allowedControlKeys.includes(e.key)){
+    if(isAlphabetical(key)){
         console.log(`prev: ${prev}`)
-        if (prev !== ''){
-            if (r1.includes(prev) && r1.includes(key)){
-                e.preventDefault();
-            }
-            if (r2.includes(prev) && r2.includes(key)){
-                e.preventDefault();
-            }
-            if (c1.includes(prev) && c1.includes(key)){
-                e.preventDefault();
-            }
-            if (c2.includes(prev) && c2.includes(key)){
-                e.preventDefault();
-            }
-            if (e.key === 'Enter'){
-                console.log(wordInput.value)
-                if(words.includes(wordInput.value)){
-                    validWord()
-                    let letters = wordInput.value.split('')
-                    let letterDivs = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12]
+    }
 
-                    for(let i = 0; i < letters.length; i++){
-                        letterDivs.forEach((letterDiv) => {
-                            if(letterDiv.innerHTML === letters[i]){
-                                letterDiv.classList.add('used')
-                                // if (!usedLetters.includes(letters[i])){
-                                //     usedLetters.add(letters[i])
-                                // }
-                            }
-                        })
-                        // if (usedLetters.length === 12){
-                        //     alert("Winner!!")
-                        // }
-                    }
-                    result.innerHTML += wordInput.value + ' '
-                    wordInput.value =''
-                } else {
-                    invalidWord()
-                }
-                // showMessage()
-            }
-        }
-        prev = key
-    } else{
+    if(r1.includes(key) && r1.includes(prev)){
         e.preventDefault()
     }
-      
+    if(r2.includes(key) && r2.includes(prev)){
+        e.preventDefault()
+    }
+    if(c1.includes(key) && c1.includes(prev)){
+        e.preventDefault()
+    }
+    if(c2.includes(key) && c2.includes(prev)){
+        e.preventDefault()
+    }
+
+    if (e.key === 'ENTER'){
+        console.log('entered')
+    }
 })
 
 function validWord() {

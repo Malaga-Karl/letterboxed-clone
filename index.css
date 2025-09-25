@@ -7,17 +7,25 @@ body{
     background-color: rgb(228, 242, 204);
 }
 
+#main{
+ /* background-color: red; */
+ height: 90vh;
+ gap: 100px;
+ display: flex;
+ justify-content: center;
+ align-content: center;
+}
+
 #box{
-    flex: 2;
-    /* background-color: red; */
+    /* flex: 2; */
+    /* background-color: yellow; */
     width: 400px;
     height: 400px;
+    align-self: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 h5{
@@ -64,13 +72,6 @@ h5{
     border: black solid 3pt;
 }
 
-#main{
-    display: flex;
-    width: 90vw;
-    height: 90vh;
-    justify-content: center;
-    align-items: center;
-}
 
 /* DOTS */
 
@@ -119,10 +120,9 @@ h5{
 }
 
 #wordinput{
-    flex: 1;
+    /* flex: 1; */
     height: 50px;
-    width: 100px;
-    margin-left: 100px;
+    width: 97%;
     
     /* display: flex; */
     /* margin-left: auto;
@@ -132,4 +132,12 @@ h5{
 
 .used{
     background-color: rgba(29, 205, 29, 0.325);
+}
+
+#input_and_result{
+    /* background-color: green; */
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
