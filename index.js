@@ -76,6 +76,7 @@ let usedLetters = [];
 wordInput.addEventListener('keydown', (e) => {
     // only on selected words
     let prev = wordInput.value[wordInput.value.length - 1] || null;
+    let currentWord = wordInput.value;
     let key = e.key.toLowerCase()
     function isAlphabetical(char) {
         return char.length === 1 && /[a-zA-Z]/.test(char);
@@ -98,8 +99,13 @@ wordInput.addEventListener('keydown', (e) => {
         e.preventDefault()
     }
 
-    if (e.key === 'ENTER'){
-        console.log('entered')
+    if (e.key === 'Enter'){
+        if (words.includes(currentWord)){
+            validWord()
+            
+        } else{
+            invalidWord()
+        }
     }
 })
 
