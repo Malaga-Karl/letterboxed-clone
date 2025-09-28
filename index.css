@@ -10,7 +10,8 @@ body{
 
 #main{
  /* background-color: red; */
- height: 90vh;
+ /* height: 90vh; */
+ margin-top: 5%;
  gap: 100px;
  display: flex;
  justify-content: center;
@@ -145,4 +146,42 @@ h5{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+
+/* CHANGING LETTERS */
+#change{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#changes{
+    min-width: 170px; /* reserve enough space for 3 circles */
+    justify-content: flex-start;
+}
+
+button{
+    font-size: 20px;
+    width: 200px;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    border-radius: 6px;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* soft shadow */
+}
+
+.changeable{
+    border: 3px dashed rgb(58, 58, 58);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.changeable:hover {
+    background-color: aquamarine;
 }
