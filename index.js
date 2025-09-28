@@ -28,23 +28,46 @@ const l11 = document.getElementById('c2l2')
 const l12 = document.getElementById('c2l3')
 const wordInput = document.getElementById('wordinput');
 const result = document.getElementById('results')
+const confetti = document.getElementById('confetti')
 
+const jsConfetti = new JSConfetti()
+const letters = 'abcdefghijklmnopqrstuvwxyz'.split("");
+const vowels = ['a', 'e', 'i', 'o', 'u'];
+const consonants = letters.filter(l => !vowels.includes(l));
 
-
-const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
-
-function pickRandom(){
-    const index = Math.floor(Math.random() * letters.length);
-    return letters.splice(index, 1)[0];
+function pickRandom(arr) {
+  const index = Math.floor(Math.random() * arr.length);
+  return arr.splice(index, 1)[0]; // removes and returns
 }
 
+// decide how many vowels: 3–5
+const vowelCount = Math.floor(Math.random() * 3) + 3; // 3, 4, or 5
+const consonantCount = 12 - vowelCount;
 
+let chosen = [];
 
-const r1 = [pickRandom(),pickRandom(),pickRandom()]
-const r2 = [pickRandom(),pickRandom(),pickRandom()]
-const c1 = [pickRandom(),pickRandom(),pickRandom()]
-const c2 = [pickRandom(),pickRandom(),pickRandom()]
+// pick unique vowels
+let availableVowels = [...vowels];
+for (let i = 0; i < vowelCount; i++) {
+  chosen.push(pickRandom(availableVowels));
+}
 
+// pick unique consonants
+let availableConsonants = [...consonants];
+for (let i = 0; i < consonantCount; i++) {
+  chosen.push(pickRandom(availableConsonants));
+}
+
+// shuffle chosen letters
+chosen = chosen.sort(() => Math.random() - 0.5);
+
+// split into groups of 3
+const r1 = chosen.slice(0, 3);
+const r2 = chosen.slice(3, 6);
+const c1 = chosen.slice(6, 9);
+const c2 = chosen.slice(9, 12);
+
+console.log(r1, r2, c1, c2);
 let selectedLetters = [...r1, ...r2, ...c1, ...c2]
 
 l1.innerHTML = r1[0]
@@ -73,6 +96,15 @@ const allowedControlKeys = [
 
 let usedWords = [];
 let usedLetters = [];
+let letterDivs = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12]
+let letterCount = {};
+letterDivs.forEach((letter) => {
+    letterCount[letter.innerHTML] = {
+        "div":letter,
+        "count": 0
+    }
+})
+
 
 wordInput.addEventListener('keydown', (e) => {
     // only on selected words
@@ -86,50 +118,61 @@ wordInput.addEventListener('keydown', (e) => {
     if(isAlphabetical(key)){
         console.log(`prev: ${prev}`)
     }
-    if (!(selectedLetters.includes(key) || allowedControlKeys.includes(key))) e.preventDefault()
-    if(r1.includes(key) && r1.includes(prev)){
-        e.preventDefault()
-    }
-    if(r2.includes(key) && r2.includes(prev)){
-        e.preventDefault()
-    }
-    if(c1.includes(key) && c1.includes(prev)){
-        e.preventDefault()
-    }
-    if(c2.includes(key) && c2.includes(prev)){
-        e.preventDefault()
-    }
-
-    if (e.key === 'Backspace'){
-        // console.log(`backspace, ${currentWord.length} ${usedWords.length}`)
-        if (currentWord.length === 1 && usedWords.length > 0){
-            wordInput.value = usedWords[usedWords.length-1]
-
-            usedWords.pop()
+    if(selectedLetters.includes(key) || allowedControlKeys.includes(e.key)){
+        if(r1.includes(key) && r1.includes(prev)){
+            e.preventDefault()
         }
-    }
+        if(r2.includes(key) && r2.includes(prev)){
+            e.preventDefault()
+        }
+        if(c1.includes(key) && c1.includes(prev)){
+            e.preventDefault()
+        }
+        if(c2.includes(key) && c2.includes(prev)){
+            e.preventDefault()
+        }
 
-    if (e.key === 'Enter'){
-        console.log(currentWord)
-        if(words.includes(currentWord)){
-            usedWords.push(currentWord);
-            let lastLetter = currentWord[currentWord.length-1]
-            validWord()
-            let letters = wordInput.value.split('')
-            let letterDivs = [l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12]
+        if (e.key === 'Backspace') {
+            if (currentWord.length === 1 && usedWords.length > 0) {
+                // Stop the default backspace (so it doesn't delete the last letter)
+                e.preventDefault();
 
-            for(let i = 0; i < letters.length; i++){
-                letterDivs.forEach((letterDiv) => {
-                    if(letterDiv.innerHTML === letters[i]){
-                        letterDiv.classList.add('used')
+                // Restore the last full word
+                const lastWord = usedWords.pop();
+                let uniqueChars = [...new Set(lastWord)].join('');
+                for(let i = 0; i < uniqueChars.length; i++){
+                    letterCount[uniqueChars[i]].count--
+                    if (letterCount[uniqueChars[i]].count === 0){
+                        letterCount[uniqueChars[i]].div.classList.remove('used')
                     }
-                })
+                }
+                wordInput.value = lastWord;
+                currentWord = lastWord;
+                result.innerHTML = usedWords.join(' ');
             }
-            result.innerHTML += wordInput.value + ' '
-            wordInput.value =lastLetter
-        } else {
-            invalidWord()
         }
+        if (e.key === 'Enter'){
+            console.log(currentWord)
+            if(words.includes(currentWord)){
+                usedWords.push(currentWord);
+                let lastLetter = currentWord[currentWord.length-1]
+                validWord()
+                let letters = wordInput.value.split('')
+                let uniqueChars = [...new Set(letters)].join('');
+
+                for(let i = 0; i < uniqueChars.length; i++){
+                    letterCount[uniqueChars[i]].div.classList.add('used');
+                    letterCount[uniqueChars[i]].count++
+                }
+                result.innerHTML = usedWords.join(' ');
+                wordInput.value =lastLetter
+                checkWin();
+            } else {
+                invalidWord()
+            }
+        }
+    } else{
+        e.preventDefault()
     }
 })
 
@@ -158,4 +201,26 @@ function invalidWord() {
         msg.style.display = "none"; // fully hide after fade
       }, 1000); // match transition time
     }, 2000); // stay visible for 2 sec
+}
+
+let confettiInterval; // store interval so we can clear it later
+
+function checkWin() {
+  for (let key in letterCount) {
+    if (letterCount[key].count === 0) {
+      return
+    }
+  }
+
+  jsConfetti.addConfetti()
+  // if already celebrating, don’t start another interval
+  if (!confettiInterval) {
+    confettiInterval = setInterval(() => {
+      jsConfetti.addConfetti()
+    }, 1000); // every 1s
+  }
+
+  wordInput.value = 'WINNER!'
+  wordInput.disabled = true
+  wordInput.style.color = 'green'
 }
