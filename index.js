@@ -207,11 +207,21 @@ function checkWin() {
     }
   }
 
-  jsConfetti.addConfetti()
+  jsConfetti.addConfetti(
+    {
+      emojis:['🎉', '🎊', '🥳', '🍮'
+      ]
+    }
+  )
   // if already celebrating, don’t start another interval
   if (!confettiInterval) {
     confettiInterval = setInterval(() => {
-      jsConfetti.addConfetti()
+      jsConfetti.addConfetti(
+    {
+      emojis:['🎉', '🎊', '🥳', '🍮'
+      ]
+    }
+  )
     }, 1000); // every 1s
   }
 
