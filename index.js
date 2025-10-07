@@ -230,6 +230,11 @@ function checkWin() {
   wordInput.style.color = 'green'
 }
 
+// Try to complete in n words /////////////////////////////////////////////
+let maxWords = Math.floor(Math.random() * (8-4) + 4);
+const maxWordsDiv = document.getElementById("try-complete");
+maxWordsDiv.innerHTML = `Try to complete the puzzle in ${maxWords} words`
+
 
 // Change letters /////////////////////////////////////////////////////////
 const changeLives = document.getElementById('changes');

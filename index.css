@@ -185,3 +185,8 @@ button:hover{
 .changeable:hover {
     background-color: aquamarine;
 }
+
+#try-complete{
+    font-size: small;
+    font-weight: 700;
+}
