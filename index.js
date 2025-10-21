@@ -77,6 +77,8 @@ let c2 = chosen.slice(9, 12);
 
 console.log(r1, r2, c1, c2);
 let selectedLetters = [...r1, ...r2, ...c1, ...c2]
+console.log(selectedLetters);
+let unselectedLetters = letters.filter(l => !selectedLetters.includes(l))
 
 // insert selected letters to divs
 l1.innerHTML = r1[0]
@@ -255,13 +257,43 @@ changeButton.addEventListener('click', (e) => {
     wordInput.disabled = false;
     letterDivs.forEach((div) => {div.classList.remove('changeable')})
   } else { ////// user is changing letters
+    
     changeButton.innerHTML = "Save"
     wordInput.disabled = true;
     letterDivs.forEach((div) => {
       div.classList.add('changeable');
       div.addEventListener(('click'), (e)=> {
+        
+        console.log(div.innerHTML)
+        let index = selectedLetters.indexOf(div.innerHTML)
+        let newLetter = pickRandom(unselectedLetters)
+
+        let placement;
+        let relativeIndex
+        if(index >= 0 && index <= 2){
+          placement = r1
+          relativeIndex = index
+        }
+        else if(index >= 3 && index <= 5) {
+          placement = r2
+          relativeIndex = index - 3
+        }
+        else if(index >= 6 && index <= 8) {
+          placement = c1
+          relativeIndex = index - 6
+        }
+        else if(index >= 9 && index <= 11) {
+          placement = c2
+          relativeIndex = index - 9
+        }
+
+        placement[relativeIndex] = newLetter
+
+        selectedLetters[index] = newLetter;
+        div.innerHTML = newLetter;
         changes.pop()
         changeLives.innerHTML = changes.join(' ')
+        console.log(selectedLetters)
       })
     })
   }
