@@ -12,3 +12,5 @@ Hello
 
 uhh ang kulit nito. I forgot how to run this, should I npm run dev or just open in Live Server. I need some sort of instruction. I should do this to all of my projects
 
+ok i put a localstorage thing in it and it's fun ahahahhahaha
+
