@@ -3,8 +3,9 @@ let words = [];
 
 async function loadWords() {
   const res = await fetch(
-    "https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json"
-  );
+  "https://corsproxy.io/?" +
+  encodeURIComponent("https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json")
+);
   const wordsObj = await res.json();
   words = Object.keys(wordsObj);
   console.log("Words loaded:", words.length);
@@ -152,6 +153,10 @@ wordInput.addEventListener('keydown', (e) => {
             }
         }
         if (e.key === 'Enter'){
+            if (currentWord.length < 3){
+                tooShortWord()
+                return
+            }
             console.log(currentWord)
             if(words.includes(currentWord)){
                 usedWords.push(currentWord);
@@ -191,6 +196,20 @@ function validWord() {
 }
 function invalidWord() {
     const msg = document.getElementById("invalidWord");
+
+    msg.style.display = "block";   // show
+    msg.style.opacity = "1";       // fade in
+
+    setTimeout(() => {
+      msg.style.opacity = "0";     // fade out
+      setTimeout(() => {
+        msg.style.display = "none"; // fully hide after fade
+      }, 1000); // match transition time
+    }, 2000); // stay visible for 2 sec
+}
+
+function tooShortWord() {
+    const msg = document.getElementById("tooShortWord");
 
     msg.style.display = "block";   // show
     msg.style.opacity = "1";       // fade in
