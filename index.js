@@ -243,3 +243,45 @@ function checkWin() {
   wordInput.disabled = true
   wordInput.style.color = 'green'
 }
+
+// --- Timer visibility toggle ---
+function setupTimerToggle() {
+  const timer = document.getElementById('timer');
+  const toggleBtn = document.getElementById('toggle-timer');
+  const icon = toggleBtn.querySelector('i');
+
+  toggleBtn.addEventListener('click', () => {
+    timer.classList.toggle('timer-hidden');
+    // Switch between eye and eye-slash
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+  });
+}
+
+// --- Start overlay & timer hookup ---
+// When the page loads the main area will be blurred. Clicking the overlay
+// removes the blur and starts the stopwatch (if available).
+document.addEventListener('DOMContentLoaded', () => {
+  setupTimerToggle();
+  const mainEl = document.getElementById('main');
+  const overlay = document.getElementById('start-overlay');
+
+  if (!mainEl || !overlay) return;
+
+  // initial blurred state
+  mainEl.classList.add('blurred');
+
+  overlay.addEventListener('click', () => {
+    mainEl.classList.remove('blurred');
+    overlay.classList.add('hidden');
+    // start the stopwatch if the function is available
+    try {
+      if (typeof startStopwatch === 'function') {
+        startStopwatch();
+      }
+    } catch (e) {
+      // stopwatch not available — ignore silently
+      console.warn('startStopwatch not available', e);
+    }
+  });
+});

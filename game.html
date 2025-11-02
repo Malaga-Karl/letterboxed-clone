@@ -6,24 +6,26 @@
     <title>Loser-dle</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="nav.css">
-    <link rel="icon" type="image/x-icon" href="/assets/images/package-lock.ico"> 
+    <link rel="icon" type="image/x-icon" href="/assets/images/package-lock.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav>
-        <p>i lost wordle today</p>
-        <ul id="navlist">
-            <li>
-                <a href="">Game</a>
-            </li>
-            <li>
-                <a href="">About</a>
-            </li>
-        </ul>
+        <p>who lost wordle today? you did</p>
     </nav>
+    
+    <div id="start-overlay">Click to start</div>
     <div id="main">
-        <!-- <div id="timer">0:00</div> -->
         <div id="input_and_result">
-            <input type="text" name="word" id="wordinput" autocomplete="off" spellcheck="false" autofocus>
+            <div class="input-group">
+                <div class="timer-container">
+                    <div id="timer">0:00</div>
+                    <button id="toggle-timer" class="timer-toggle">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                <input type="text" name="word" id="wordinput" autocomplete="off" spellcheck="false" autofocus>
+            </div>
             <div id="results"></div>
         </div>
         <div id="box">
@@ -122,7 +124,7 @@
     <canvas id="confetti"></canvas>
     <!-- <h1>helo</h1> -->
     <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+    <script src="stopwatch.js"></script>
     <script type="module" src="./index.js"></script>
-    <script src="timer.js"></script>
 </body>
 </html>

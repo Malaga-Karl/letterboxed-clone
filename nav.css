@@ -10,24 +10,12 @@ nav p{
     margin-right: 30px;
 }
 
-#navlist{
-    list-style-type: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    align-items: center;
-}
-
-
-#navlist li a{
-    text-decoration: none;
-    color: rgb(202, 202, 202);
-    font-size: 18px;
-}
-
-#navlist li{
-    display: flex;
-    align-items: center;
+#blur{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    backdrop-filter: blur(5px);
+    z-index: 2;
 }

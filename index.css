@@ -15,6 +15,7 @@ body{
  display: flex;
  justify-content: center;
  align-content: center;
+    position: relative; /* allow overlay inside */
 }
 
 #box{
@@ -126,12 +127,10 @@ h5{
 #wordinput{
     /* flex: 1; */
     height: 50px;
-    width: 97%;
-    
-    /* display: flex; */
-    /* margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 100px; */
+    width: 100%;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
 .used{
@@ -141,9 +140,69 @@ h5{
 
 #input_and_result{
     /* background-color: green; */
-    width: 300px;
+    width: 350px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
+/* Timer and input styling */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 100px;
+}
+
+#timer {
+    font-size: 20px;
+    font-weight: bold;
+    transition: opacity 200ms ease;
+}
+
+.timer-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: #666;
+    transition: color 200ms ease;
+}
+
+.timer-toggle:hover {
+    color: #333;
+}
+
+.timer-hidden {
+    opacity: 0;
+}
+
+/* Start overlay & blur */
+.blurred{
+    filter: blur(6px);
+    transition: filter 200ms ease-in-out;
+}
+
+#start-overlay{
+    position: absolute;
+    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.25);
+    color: white;
+    z-index: 50;
+    cursor: pointer;
+    font-size: 28px;
+    user-select: none;
+}
+
+.hidden{ display: none !important; }
 
