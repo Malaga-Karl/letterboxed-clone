@@ -231,8 +231,22 @@ function checkWin() {
     }
   }
 
+  // Stop the timer and get final time
+  try {
+    if (typeof stopStopwatch === 'function') {
+      stopStopwatch();
+    }
+    const finalTime = document.getElementById('timer').textContent;
+    const winningTimeEl = document.querySelector('.winning-time');
+    winningTimeEl.textContent = `Completed in ${finalTime}!`;
+    // Trigger animation
+    setTimeout(() => winningTimeEl.classList.add('show'), 100);
+  } catch (e) {
+    console.warn('Error stopping/displaying timer', e);
+  }
+
   jsConfetti.addConfetti()
-  // if already celebrating, don’t start another interval
+  // if already celebrating, don't start another interval
   if (!confettiInterval) {
     confettiInterval = setInterval(() => {
       jsConfetti.addConfetti()
