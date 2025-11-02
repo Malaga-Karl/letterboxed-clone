@@ -37,3 +37,9 @@ its a really fun and memorable domain for the both of us. I want us to bond over
 
 damn okay, the thing broke. im gonna use an api nalang
 
+
+---
+
+## 2025-11-02 Sunday
+okay maybe i shouldve gone for ReactJS here
+

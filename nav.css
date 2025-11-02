@@ -1,0 +1,33 @@
+nav{
+    display: flex;
+    align-items: center;
+}
+
+nav p{
+    color: rgb(202, 202, 202);
+    font-size: 20px;
+    margin: 0;
+    margin-right: 30px;
+}
+
+#navlist{
+    list-style-type: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    align-items: center;
+}
+
+
+#navlist li a{
+    text-decoration: none;
+    color: rgb(202, 202, 202);
+    font-size: 18px;
+}
+
+#navlist li{
+    display: flex;
+    align-items: center;
+}
