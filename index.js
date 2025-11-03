@@ -2,17 +2,31 @@
 let words = [];
 
 async function loadWords() {
+
+  const CACHE_KEY = "words_cache";
+
+  const cached = localStorage.getItem(CACHE_KEY);
+  if (cached) {
+    words = JSON.parse(cached);
+    console.log("Loaded from cache: ", words.length);
+    return
+  }
+
   const res = await fetch(
   "https://corsproxy.io/?" +
   encodeURIComponent("https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json")
 );
   const wordsObj = await res.json();
   words = Object.keys(wordsObj);
-  console.log("Words loaded:", words.length);
+
+  localStorage.setItem(CACHE_KEY, JSON.stringify(words));
+  console.log("Words loaded from Github", words.length);
 }
 
 // call it once when page loads
 loadWords();
+
+
 
 
 const l1 = document.getElementById('r1l1')

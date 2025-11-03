@@ -43,3 +43,7 @@ damn okay, the thing broke. im gonna use an api nalang
 ## 2025-11-02 Sunday
 okay maybe i shouldve gone for ReactJS here
 
+add title Loserdle and on the bottom is the tagline
+
+record time separately
+
