@@ -11,10 +11,11 @@
 </head>
 <body>
     <nav>
-        <p>who lost wordle today? you did</p>
+        <p>who lost wordle today? you did 🫵 😂</p>
     </nav>
     
     <div id="start-overlay">Click to start</div>
+    <button id="show-highscores" class="highscore-btn">See Highscores</button>
     <div id="main">
         <div id="input_and_result">
             <div class="winning-time"></div>
@@ -123,6 +124,20 @@
         Invalid Word
     </div>
     <canvas id="confetti"></canvas>
+    
+    <!-- Highscores panel -->
+    <aside id="highscore-panel" class="hidden">
+        <div class="hs-header">
+            <p>Highscores</p>
+            <button id="close-highscores" class="hs-close" aria-label="Close highscores">✕</button>
+        </div>
+        <ul id="highscore-list">
+            <!-- populated by JS -->
+        </ul>
+        <div class="hs-footer">
+            <button id="clear-highscores" class="hs-clear">Clear</button>
+        </div>
+    </aside>
     <!-- <h1>helo</h1> -->
     <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <script src="stopwatch.js"></script>

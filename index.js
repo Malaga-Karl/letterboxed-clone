@@ -255,6 +255,21 @@ function checkWin() {
     winningTimeEl.textContent = `Completed in ${finalTime}!`;
     // Trigger animation
     setTimeout(() => winningTimeEl.classList.add('show'), 100);
+    // store highscore (time and date) in localStorage
+    try {
+      const seconds = parseTimeToSeconds(finalTime);
+      const entry = { time: finalTime, seconds, date: new Date().toISOString() };
+      const HS_KEY = 'lt_highscores';
+      const raw = localStorage.getItem(HS_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      arr.push(entry);
+      // keep top 5 fastest
+      arr.sort((a, b) => a.seconds - b.seconds);
+      const top = arr.slice(0, 5);
+      localStorage.setItem(HS_KEY, JSON.stringify(top));
+    } catch (e) {
+      console.warn('Could not save highscore', e);
+    }
   } catch (e) {
     console.warn('Error stopping/displaying timer', e);
   }
@@ -270,6 +285,76 @@ function checkWin() {
   wordInput.value = 'WINNER!'
   wordInput.disabled = true
   wordInput.style.color = 'green'
+}
+
+// --- Highscores helpers ---
+function parseTimeToSeconds(timestr){
+  // expect M:SS or MM:SS
+  const parts = timestr.split(':').map(s => s.trim());
+  if(parts.length !== 2) return Infinity;
+  const mins = parseInt(parts[0], 10) || 0;
+  const secs = parseInt(parts[1], 10) || 0;
+  return mins * 60 + secs;
+}
+
+function getHighscores(){
+  const HS_KEY = 'lt_highscores';
+  const raw = localStorage.getItem(HS_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+
+function clearHighscores(){
+  const HS_KEY = 'lt_highscores';
+  localStorage.removeItem(HS_KEY);
+}
+
+function renderHighscores(){
+  const list = document.getElementById('highscore-list');
+  const panel = document.getElementById('highscore-panel');
+  if(!list) return;
+  const arr = getHighscores();
+  list.innerHTML = '';
+  if(arr.length === 0){
+    const li = document.createElement('li');
+    li.textContent = 'No highscores yet';
+    list.appendChild(li);
+    return;
+  }
+  arr.forEach((e) => {
+    const li = document.createElement('li');
+    const date = new Date(e.date);
+    const dateStr = date.toLocaleString();
+    li.innerHTML = `<span>${e.time}</span><span style="color:#666;font-size:12px">${dateStr}</span>`;
+    list.appendChild(li);
+  });
+}
+
+function setupHighscoresUI(){
+  const showBtn = document.getElementById('show-highscores');
+  const panel = document.getElementById('highscore-panel');
+  const closeBtn = document.getElementById('close-highscores');
+  const clearBtn = document.getElementById('clear-highscores');
+
+  if(showBtn){
+    showBtn.addEventListener('click', () => {
+      renderHighscores();
+      panel.classList.remove('hidden');
+    });
+  }
+  if(closeBtn){
+    closeBtn.addEventListener('click', () => panel.classList.add('hidden'));
+  }
+  if(clearBtn){
+  
+    clearBtn.addEventListener('click', () => {
+      let userConfirmation = confirm("Do you want to clear your highscores?")
+      if (!userConfirmation){
+        return;
+      }
+      clearHighscores();
+      renderHighscores();
+    });
+  }
 }
 
 // --- Timer visibility toggle ---
@@ -291,6 +376,7 @@ function setupTimerToggle() {
 // removes the blur and starts the stopwatch (if available).
 document.addEventListener('DOMContentLoaded', () => {
   setupTimerToggle();
+  setupHighscoresUI();
   const mainEl = document.getElementById('main');
   const overlay = document.getElementById('start-overlay');
 
