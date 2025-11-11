@@ -1,0 +1,21 @@
+nav{
+    display: flex;
+    align-items: center;
+}
+
+nav p{
+    color: rgb(202, 202, 202);
+    font-size: 20px;
+    margin: 0;
+    margin-right: 30px;
+}
+
+#blur{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    backdrop-filter: blur(5px);
+    z-index: 2;
+}

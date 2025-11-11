@@ -2,16 +2,33 @@
 let words = [];
 
 async function loadWords() {
+
+  const CACHE_KEY = "words_cache";
+
+  const cached = localStorage.getItem(CACHE_KEY);
+  if (cached) {
+    words = JSON.parse(cached);
+    console.log("Loaded from cache: ", words.length);
+    return
+  }
+
   const res = await fetch(
-    "https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json"
-  );
+  "https://corsproxy.io/?" +
+  encodeURIComponent("https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json")
+);
   const wordsObj = await res.json();
   words = Object.keys(wordsObj);
-  console.log("Words loaded:", words.length);
+
+  localStorage.setItem(CACHE_KEY, JSON.stringify(words));
+  console.log("Words loaded from Github", words.length);
 }
 
 // call it once when page loads
 loadWords();
+
+
+
+
 
 // all letter divs
 const l1 = document.getElementById('r1l1')
@@ -163,6 +180,10 @@ wordInput.addEventListener('keydown', (e) => {
             }
         }
         if (e.key === 'Enter'){
+            if (currentWord.length < 3){
+                tooShortWord()
+                return
+            }
             console.log(currentWord)
             if(words.includes(currentWord)){
                 usedWords.push(currentWord);
@@ -200,6 +221,34 @@ function invalidWord() {
     }, 2000); // stay visible for 2 sec
 }
 
+function tooShortWord() {
+    const msg = document.getElementById("tooShortWord");
+
+    msg.style.display = "block";   // show
+    msg.style.opacity = "1";       // fade in
+
+    setTimeout(() => {
+      msg.style.opacity = "0";     // fade out
+      setTimeout(() => {
+        msg.style.display = "none"; // fully hide after fade
+      }, 1000); // match transition time
+    }, 2000); // stay visible for 2 sec
+}
+
+function tooShortWord() {
+    const msg = document.getElementById("tooShortWord");
+
+    msg.style.display = "block";   // show
+    msg.style.opacity = "1";       // fade in
+
+    setTimeout(() => {
+      msg.style.opacity = "0";     // fade out
+      setTimeout(() => {
+        msg.style.display = "none"; // fully hide after fade
+      }, 1000); // match transition time
+    }, 2000); // stay visible for 2 sec
+}
+
 let confettiInterval; // store interval so we can clear it later
 
 function checkWin() {
@@ -209,13 +258,37 @@ function checkWin() {
     }
   }
 
-  jsConfetti.addConfetti(
-    {
-      emojis:['🎉', '🎊', '🥳', '🍮'
-      ]
+  // Stop the timer and get final time
+  try {
+    if (typeof stopStopwatch === 'function') {
+      stopStopwatch();
     }
-  )
-  // if already celebrating, don’t start another interval
+    const finalTime = document.getElementById('timer').textContent;
+    const winningTimeEl = document.querySelector('.winning-time');
+    winningTimeEl.textContent = `Completed in ${finalTime}!`;
+    // Trigger animation
+    setTimeout(() => winningTimeEl.classList.add('show'), 100);
+    // store highscore (time and date) in localStorage
+    try {
+      const seconds = parseTimeToSeconds(finalTime);
+      const entry = { time: finalTime, seconds, date: new Date().toISOString() };
+      const HS_KEY = 'lt_highscores';
+      const raw = localStorage.getItem(HS_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      arr.push(entry);
+      // keep top 5 fastest
+      arr.sort((a, b) => a.seconds - b.seconds);
+      const top = arr.slice(0, 5);
+      localStorage.setItem(HS_KEY, JSON.stringify(top));
+    } catch (e) {
+      console.warn('Could not save highscore', e);
+    }
+  } catch (e) {
+    console.warn('Error stopping/displaying timer', e);
+  }
+
+  jsConfetti.addConfetti()
+  // if already celebrating, don't start another interval
   if (!confettiInterval) {
     confettiInterval = setInterval(() => {
       jsConfetti.addConfetti(
@@ -231,6 +304,119 @@ function checkWin() {
   wordInput.disabled = true
   wordInput.style.color = 'green'
 }
+
+// --- Highscores helpers ---
+function parseTimeToSeconds(timestr){
+  // expect M:SS or MM:SS
+  const parts = timestr.split(':').map(s => s.trim());
+  if(parts.length !== 2) return Infinity;
+  const mins = parseInt(parts[0], 10) || 0;
+  const secs = parseInt(parts[1], 10) || 0;
+  return mins * 60 + secs;
+}
+
+function getHighscores(){
+  const HS_KEY = 'lt_highscores';
+  const raw = localStorage.getItem(HS_KEY);
+  return raw ? JSON.parse(raw) : [];
+}
+
+function clearHighscores(){
+  const HS_KEY = 'lt_highscores';
+  localStorage.removeItem(HS_KEY);
+}
+
+function renderHighscores(){
+  const list = document.getElementById('highscore-list');
+  const panel = document.getElementById('highscore-panel');
+  if(!list) return;
+  const arr = getHighscores();
+  list.innerHTML = '';
+  if(arr.length === 0){
+    const li = document.createElement('li');
+    li.textContent = 'No highscores yet';
+    list.appendChild(li);
+    return;
+  }
+  arr.forEach((e) => {
+    const li = document.createElement('li');
+    const date = new Date(e.date);
+    const dateStr = date.toLocaleString();
+    li.innerHTML = `<span>${e.time}</span><span style="color:#666;font-size:12px">${dateStr}</span>`;
+    list.appendChild(li);
+  });
+}
+
+function setupHighscoresUI(){
+  const showBtn = document.getElementById('show-highscores');
+  const panel = document.getElementById('highscore-panel');
+  const closeBtn = document.getElementById('close-highscores');
+  const clearBtn = document.getElementById('clear-highscores');
+
+  if(showBtn){
+    showBtn.addEventListener('click', () => {
+      renderHighscores();
+      panel.classList.remove('hidden');
+    });
+  }
+  if(closeBtn){
+    closeBtn.addEventListener('click', () => panel.classList.add('hidden'));
+  }
+  if(clearBtn){
+  
+    clearBtn.addEventListener('click', () => {
+      let userConfirmation = confirm("Do you want to clear your highscores?")
+      if (!userConfirmation){
+        return;
+      }
+      clearHighscores();
+      renderHighscores();
+    });
+  }
+}
+
+// --- Timer visibility toggle ---
+function setupTimerToggle() {
+  const timer = document.getElementById('timer');
+  const toggleBtn = document.getElementById('toggle-timer');
+  const icon = toggleBtn.querySelector('i');
+
+  toggleBtn.addEventListener('click', () => {
+    timer.classList.toggle('timer-hidden');
+    // Switch between eye and eye-slash
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
+  });
+}
+
+// --- Start overlay & timer hookup ---
+// When the page loads the main area will be blurred. Clicking the overlay
+// removes the blur and starts the stopwatch (if available).
+document.addEventListener('DOMContentLoaded', () => {
+  setupTimerToggle();
+  setupHighscoresUI();
+  const mainEl = document.getElementById('main');
+  const overlay = document.getElementById('start-overlay');
+
+  if (!mainEl || !overlay) return;
+
+  // initial blurred state
+  mainEl.classList.add('blurred');
+
+  overlay.addEventListener('click', () => {
+    mainEl.classList.remove('blurred');
+    overlay.classList.add('hidden');
+    // start the stopwatch if the function is available
+    try {
+      if (typeof startStopwatch === 'function') {
+        startStopwatch();
+      }
+    } catch (e) {
+      // stopwatch not available — ignore silently
+      console.warn('startStopwatch not available', e);
+    }
+  });
+});
 
 // Try to complete in n words /////////////////////////////////////////////
 let maxWords = Math.floor(Math.random() * (8-4) + 4);

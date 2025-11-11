@@ -1,17 +1,26 @@
 {
   "name": "lttrbx",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "letterboxed clone because it got a paywall",
+  "keywords": [],
+  "homepage": "https://github.com/Malaga-Karl/letterboxed-clone#readme",
+  "bugs": {
+    "url": "https://github.com/Malaga-Karl/letterboxed-clone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Malaga-Karl/letterboxed-clone.git"
+  },
+  "license": "ISC",
+  "author": "karlmalaga",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "serve": "^14.2.5",
     "word-list-json": "^0.2.0"
-  }
+  },
+  "devDependencies": {}
 }
