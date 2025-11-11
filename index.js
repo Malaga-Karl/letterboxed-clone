@@ -185,6 +185,8 @@ wordInput.addEventListener('keydown', (e) => {
                 }
                 result.innerHTML = usedWords.join(' ');
                 wordInput.value =lastLetter
+                // update longest word if this word is the longest so far
+                try { updateLongestWord(currentWord); } catch (e) { console.warn('could not update longest', e); }
                 checkWin();
             } else {
                 invalidWord()
@@ -303,12 +305,42 @@ function getHighscores(){
   return raw ? JSON.parse(raw) : [];
 }
 
+// --- Longest word helpers ---
+function getLongestWord(){
+  const key = 'lt_longest';
+  const raw = localStorage.getItem(key);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function updateLongestWord(word){
+  if(!word) return;
+  const existing = getLongestWord();
+  if(!existing || word.length > existing.length){
+    const entry = { word, length: word.length, date: new Date().toISOString() };
+    localStorage.setItem('lt_longest', JSON.stringify(entry));
+  }
+}
+
+function renderLongestWord(){
+  const el = document.getElementById('longest-word');
+  if(!el) return;
+  const entry = getLongestWord();
+  if(!entry){
+    el.textContent = 'Longest word: —';
+  } else {
+    const date = new Date(entry.date).toLocaleDateString();
+    el.innerHTML = `<strong>Longest word:</strong> ${entry.word} <span style="color:#888;font-size:12px">(${entry.length}) • ${date}</span>`;
+  }
+}
+
 function clearHighscores(){
   const HS_KEY = 'lt_highscores';
   localStorage.removeItem(HS_KEY);
 }
 
 function renderHighscores(){
+  // also render longest word section
+  renderLongestWord();
   const list = document.getElementById('highscore-list');
   const panel = document.getElementById('highscore-panel');
   if(!list) return;
