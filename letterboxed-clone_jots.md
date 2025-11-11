@@ -47,3 +47,9 @@ add title Loserdle and on the bottom is the tagline
 
 record time separately
 
+
+---
+
+## 2025-11-06 Thursday
+add longest word stat
+
