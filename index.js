@@ -76,14 +76,48 @@ for (let i = 0; i < consonantCount; i++) {
 // shuffle chosen letters
 chosen = chosen.sort(() => Math.random() - 0.5);
 
+
+
 // split into groups of 3
 const r1 = chosen.slice(0, 3);
 const r2 = chosen.slice(3, 6);
 const c1 = chosen.slice(6, 9);
 const c2 = chosen.slice(9, 12);
 
+var difficulty = "easy";
+
 console.log(r1, r2, c1, c2);
 let selectedLetters = [...r1, ...r2, ...c1, ...c2]
+let difficultLetters = 'qxzyjk'
+
+
+
+// Check if 3 or more difficult letters are in selectedLetters
+const difficultCount = selectedLetters.filter(letter => difficultLetters.includes(letter)).length;
+if (difficultCount >= 3) {
+  difficulty = "hard";
+} else if (difficultCount < 3 && difficultCount > 0){
+  difficulty = "normal";
+}
+
+//Change Difficulty 
+if (r1 && r2 && c1 && c2) {
+  [r1, r2, c1, c2].forEach((arr) => {
+    if(arr.includes('q') && arr.includes('u')){
+      difficulty = "impossible";
+      return;
+    }
+  })
+}
+
+const difficultyDiv = document.getElementById("difficulty")
+const midBox = document.getElementById("midbox")
+
+difficultyDiv.innerHTML = difficulty;
+midBox.classList.add(`${difficulty}Diff`)
+
+console.log(difficulty)
+
 
 l1.innerHTML = r1[0]
 l2.innerHTML = r1[1]

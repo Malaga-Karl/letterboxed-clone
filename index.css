@@ -319,3 +319,20 @@ h5{
 #highscore-panel p{
     font-size: 15px;
 }
+
+.easyDiff{
+    background-color: yellow;
+
+}
+
+.normalDiff{
+    background-color: rgb(27, 191, 27);
+}
+
+.hardDiff{
+    background-color: orange;
+}
+
+.impossibleDiff{
+    background-color: red;
+}
