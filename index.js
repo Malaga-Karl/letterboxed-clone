@@ -110,6 +110,12 @@ if (r1 && r2 && c1 && c2) {
   })
 }
 
+if (selectedLetters.includes('q') && !selectedLetters.includes('u')){
+  difficulty = "impossible";
+}
+
+
+
 const difficultyDiv = document.getElementById("difficulty")
 const midBox = document.getElementById("midbox")
 

@@ -53,3 +53,9 @@ record time separately
 ## 2025-11-06 Thursday
 add longest word stat
 
+
+---
+
+## 2025-12-04 Thursday
+naadd ko ung difficulty pero feel ko nawala yung surprise i guess? im gonna see what venice thinks of it and then we move forward. feel ko rin tho imma just add kung impossible if ever. but i dont know if sa easy and normal
+
